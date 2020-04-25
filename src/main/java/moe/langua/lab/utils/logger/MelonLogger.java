@@ -27,8 +27,9 @@ public class MelonLogger {
                         e.printStackTrace();
                     }
                 } else {
+                    LogRecord record = logChain.getNext();
                     for (ILoggerHandler handler : handlers) {
-                        handler.log(logChain.getNext());
+                        handler.log(record);
                     }
                 }
             }
