@@ -2,7 +2,7 @@ package moe.langua.lab.utils.logger.handler;
 
 import moe.langua.lab.utils.logger.utils.LogRecord;
 
-public class ConsoleLogHandler implements ILoggerHandler {
+public class ConsoleLogHandler implements LogHandler {
     private final LogRecord.Level recordLevel;
 
     public ConsoleLogHandler(LogRecord.Level level) {

@@ -1,6 +1,6 @@
 package moe.langua.lab.utils.logger;
 
-import moe.langua.lab.utils.logger.handler.ILoggerHandler;
+import moe.langua.lab.utils.logger.handler.LogHandler;
 import moe.langua.lab.utils.logger.utils.LogRecord;
 import moe.langua.lab.utils.logger.utils.LogRecordProcessingChain;
 
@@ -9,12 +9,12 @@ import java.util.ArrayList;
 public class MelonLogger {
     private static final MelonLogger instance = new MelonLogger();
     private final LogRecordProcessingChain logRecordProcessingChain = new LogRecordProcessingChain();
-    private final ArrayList<ILoggerHandler> handlers = new ArrayList<>();
+    private final ArrayList<LogHandler> handlers = new ArrayList<>();
     private final Thread logWorker;
     private boolean stopped = false;
 
     private MelonLogger() {
-        Thread logWorker = new Thread(() -> {
+        logWorker = new Thread(() -> {
             while (true) {
                 if (stopped && logRecordProcessingChain.size() == 0) return;
                 if (!logRecordProcessingChain.hasNext()) {
@@ -25,7 +25,7 @@ public class MelonLogger {
                     }
                 } else {
                     LogRecord record = logRecordProcessingChain.getNext();
-                    for (ILoggerHandler handler : handlers) {
+                    for (LogHandler handler : handlers) {
                         handler.log(record);
                     }
                 }
@@ -33,7 +33,6 @@ public class MelonLogger {
         });
         logWorker.setDaemon(true);
         logWorker.start();
-        this.logWorker = logWorker;
         Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
     }
 
@@ -41,7 +40,7 @@ public class MelonLogger {
         return instance;
     }
 
-    public void addHandler(ILoggerHandler handler) {
+    public void addHandler(LogHandler handler) {
         if (!handlers.contains(handler)) handlers.add(handler);
     }
 
@@ -57,7 +56,7 @@ public class MelonLogger {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        for (ILoggerHandler handler : handlers) {
+        for (LogHandler handler : handlers) {
             handler.stop();
         }
     }

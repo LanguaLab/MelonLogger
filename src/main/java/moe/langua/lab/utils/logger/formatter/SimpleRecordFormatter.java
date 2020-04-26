@@ -7,7 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SimpleRecordFormatter implements IRecordFormatter {
+public class SimpleRecordFormatter implements RecordFormatter {
     private static final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss");
 
     @Override
