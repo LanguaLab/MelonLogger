@@ -11,11 +11,11 @@ public class TestField {
         MelonLogger logger = MelonLogger.getLogger();
         logger.addHandler(new ConsoleLogHandler(LogRecord.Level.DEBUG));
         Random random = new Random();
-        Thread.sleep(1000);
-        for(int i=0;i<0xFFFFF;i++) logger.log(LogRecord.Level.INFO,""+random.nextInt());
-        Thread.sleep(1000);
-        logger.log(LogRecord.Level.FINE,"wwwwwwwww");
-        Thread.sleep(1000);
-        logger.log(LogRecord.Level.FATAL,"stop...!");
+        Thread.sleep(10000);
+        //A huge LogRecordProcessingChain will be created here
+        for (int i = 0; i < 0x4FFFFF; i++) logger.log(LogRecord.Level.INFO, "" + random.nextInt());
+        Thread.sleep(10000);
+        logger.log(LogRecord.Level.FINE, "wwwwwwwww");
+        logger.log(LogRecord.Level.FATAL, "stop...!");
     }
 }

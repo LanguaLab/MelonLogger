@@ -14,4 +14,9 @@ public class ConsoleLogHandler implements ILoggerHandler {
         if (logRecord.level.level() < recordLevel.level()) return;
         System.out.println(formatter.format(logRecord));
     }
+
+    @Override
+    public void stop() {
+        //nothing to do
+    }
 }

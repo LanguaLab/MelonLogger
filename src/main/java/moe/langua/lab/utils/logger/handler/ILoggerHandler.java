@@ -8,4 +8,6 @@ public interface ILoggerHandler {
     IRecordFormatter formatter = new SimpleRecordFormatter();
 
     void log(LogRecord logRecord);
+
+    void stop();
 }

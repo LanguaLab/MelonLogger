@@ -4,30 +4,27 @@ import moe.langua.lab.utils.logger.handler.ILoggerHandler;
 import moe.langua.lab.utils.logger.utils.LogRecord;
 import moe.langua.lab.utils.logger.utils.LogRecordProcessingChain;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class MelonLogger {
-    private static final MelonLogger instance = new MelonLogger(new File(new File("").getAbsolutePath() + "/logs"));
-    private final File dataRoot;
-    private final LogRecordProcessingChain logChain = new LogRecordProcessingChain();
+    private static final MelonLogger instance = new MelonLogger();
+    private final LogRecordProcessingChain logRecordProcessingChain = new LogRecordProcessingChain();
     private final ArrayList<ILoggerHandler> handlers = new ArrayList<>();
+    private final Thread logWorker;
     private boolean stopped = false;
-    private Thread logWorker;
 
-    private MelonLogger(File dataRoot) {
-        this.dataRoot = dataRoot;
+    private MelonLogger() {
         Thread logWorker = new Thread(() -> {
             while (true) {
-                if (stopped && logChain.size() == 0) return;
-                if (!logChain.hasNext()) {
+                if (stopped && logRecordProcessingChain.size() == 0) return;
+                if (!logRecordProcessingChain.hasNext()) {
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    LogRecord record = logChain.getNext();
+                    LogRecord record = logRecordProcessingChain.getNext();
                     for (ILoggerHandler handler : handlers) {
                         handler.log(record);
                     }
@@ -50,7 +47,7 @@ public class MelonLogger {
 
     public void log(LogRecord.Level level, String content) {
         LogRecord record = new LogRecord(level, content, System.currentTimeMillis());
-        logChain.addRecord(record);
+        logRecordProcessingChain.addRecord(record);
     }
 
     public void stop() {
@@ -59,6 +56,9 @@ public class MelonLogger {
             logWorker.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        for (ILoggerHandler handler : handlers) {
+            handler.stop();
         }
     }
 }
