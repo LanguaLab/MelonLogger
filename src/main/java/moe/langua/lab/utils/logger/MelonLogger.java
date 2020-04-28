@@ -19,7 +19,7 @@ public class MelonLogger {
                 if (stopped && logRecordProcessingChain.size() == 0) return;
                 if (!logRecordProcessingChain.hasNext()) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(250);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

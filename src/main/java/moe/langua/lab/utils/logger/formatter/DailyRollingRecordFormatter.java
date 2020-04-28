@@ -11,6 +11,6 @@ public class DailyRollingRecordFormatter implements RecordFormatter {
 
     @Override
     public String format(LogRecord logRecord) {
-        return "| " + dateFormat.format(new Date(logRecord.timestamp)) + " | " + logRecord.level.name() + " | " + logRecord.content+"\n";
+        return "| " + dateFormat.format(new Date(logRecord.timestamp)) + " | " + logRecord.recordLevel.name() + " | " + logRecord.content+"\n";
     }
 }

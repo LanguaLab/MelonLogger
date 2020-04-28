@@ -12,8 +12,8 @@ public class SimpleRecordFormatter implements RecordFormatter {
 
     @Override
     public String format(LogRecord logRecord) {
-        String recordString = "| " + dateFormat.format(new Date(logRecord.timestamp)) + " | " + logRecord.level.name() + " | " + logRecord.content;
-        switch (logRecord.level) {
+        String recordString = "| " + dateFormat.format(new Date(logRecord.timestamp)) + " | " + logRecord.recordLevel.name() + " | " + logRecord.content;
+        switch (logRecord.recordLevel) {
             case DEBUG:
                 recordString = Utils.color(recordString, Utils.Color.WHITE, Utils.Color.GRAY);
                 break;

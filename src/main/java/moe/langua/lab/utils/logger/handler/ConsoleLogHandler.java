@@ -11,7 +11,7 @@ public class ConsoleLogHandler implements LogHandler {
 
     @Override
     public void log(LogRecord logRecord) {
-        if (logRecord.level.level() < recordLevel.level()) return;
+        if (logRecord.recordLevel.level < recordLevel.level) return;
         System.out.println(formatter.format(logRecord));
     }
 

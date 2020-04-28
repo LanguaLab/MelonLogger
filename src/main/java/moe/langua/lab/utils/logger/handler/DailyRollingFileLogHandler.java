@@ -10,22 +10,23 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.zip.GZIPOutputStream;
 
 public class DailyRollingFileLogHandler implements LogHandler {
     private static final RecordFormatter formatter = new DailyRollingRecordFormatter();
-
-    private final static long millsADay = 86400000;
     private final File dataRoot;
     private final Thread typist;
     private final LogRecordProcessingChain logRecordProcessingChain = new LogRecordProcessingChain();
     private final File logFile;
     private final DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+    private final LogRecord.Level minimalRecordLevel;
     private FileWriter writer;
+
+    private final static long millsADay = 86400000;
     private long nextRoll;
     private boolean stopped = false;
 
     public DailyRollingFileLogHandler(LogRecord.Level level, File dataRoot) throws IOException {
+        this.minimalRecordLevel = level;
         this.dataRoot = dataRoot;
         this.logFile = new File(dataRoot.getAbsolutePath() + "/latest.log");
         nextRoll = (System.currentTimeMillis() / millsADay) * millsADay;
@@ -89,7 +90,9 @@ public class DailyRollingFileLogHandler implements LogHandler {
             logFile.createNewFile();
         }
         if (writer == null) writer = new FileWriter(logFile,false);
-        nextRoll += millsADay;
+        while (nextRoll<System.currentTimeMillis()){
+            nextRoll += millsADay;
+        }
     }
 
     private File getGzipFile() throws IOException {
@@ -106,6 +109,7 @@ public class DailyRollingFileLogHandler implements LogHandler {
 
     @Override
     public void log(LogRecord logRecord) {
+        if(logRecord.recordLevel.level<minimalRecordLevel.level) return;
         logRecordProcessingChain.addRecord(logRecord);
     }
 
