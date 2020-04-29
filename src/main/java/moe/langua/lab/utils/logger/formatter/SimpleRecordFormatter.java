@@ -23,7 +23,7 @@ public class SimpleRecordFormatter implements RecordFormatter {
             case INFO:
                 recordString = Utils.color(recordString, Utils.Color.GRAY, Utils.Color.GRAY);
                 break;
-            case WARNING:
+            case WARN:
                 recordString = Utils.color(recordString, Utils.Color.YELLOW, Utils.Color.GRAY);
                 break;
             case ERROR:
