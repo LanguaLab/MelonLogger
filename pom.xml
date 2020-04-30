@@ -6,7 +6,7 @@
 
     <groupId>moe.langua.lab.utils.logger</groupId>
     <artifactId>MelonLogger</artifactId>
-    <version>1</version>
+    <version>3.0.0</version>
 
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
