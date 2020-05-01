@@ -49,6 +49,18 @@ public class MelonLogger {
         logRecordProcessingChain.addRecord(record);
     }
 
+    public void debug(String content) {
+        log(LogRecord.Level.DEBUG,content);
+    }
+
+    public void info(String content) {
+        log(LogRecord.Level.INFO,content);
+    }
+
+    public void warn(String content) {
+        log(LogRecord.Level.WARN,content);
+    }
+
     public void stop() {
         stopped = true;
         try {
