@@ -30,7 +30,7 @@ public class MelonLogger {
                     }
                 }
             }
-        });
+        },"MelonLogger-worker");
         logWorker.setDaemon(true);
         logWorker.start();
         Runtime.getRuntime().addShutdownHook(new Thread(this::stop));

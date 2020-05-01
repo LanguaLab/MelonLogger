@@ -55,7 +55,7 @@ public class DailyRollingFileLogHandler implements LogHandler {
                     }
                 }
             }
-        });
+        },"MelonLogger-DailyRollingFileLogHandler-typist");
         typist.setDaemon(true);
         typist.start();
     }
