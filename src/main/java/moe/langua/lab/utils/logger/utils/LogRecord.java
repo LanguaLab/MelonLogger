@@ -20,9 +20,9 @@ public class LogRecord {
             this.level = level;
         }
 
-        public static Level getFromName(String name){
+        public static Level getFromName(String name) {
             name = name.toLowerCase();
-            switch (name){
+            switch (name) {
                 case "debug":
                     return DEBUG;
                 case "fine":

@@ -11,11 +11,11 @@ public class LogRecordProcessingChain {
     }
 
     public boolean hasNext() {
-            return waiting.hasNext();
+        return waiting.hasNext();
     }
 
     public LogRecord getNext() {
-        synchronized (this){
+        synchronized (this) {
             if (waiting.next == null) return null;
             waiting = waiting.next;
             size--;
@@ -24,7 +24,7 @@ public class LogRecordProcessingChain {
     }
 
     public void addRecord(LogRecord record) {
-        synchronized (this){
+        synchronized (this) {
             latest = new Node(latest, record);
             size++;
         }
