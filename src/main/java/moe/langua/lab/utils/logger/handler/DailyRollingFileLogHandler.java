@@ -32,10 +32,8 @@ public class DailyRollingFileLogHandler implements LogHandler {
                 throw new IOException("Failed to reset " + latestLogFile.getAbsolutePath());
         }
         latestLogFileOutputStream = new FileOutputStream(latestLogFile, true);
-        Calendar cal = Calendar.getInstance();
-        long milliDiff = cal.get(Calendar.ZONE_OFFSET);
-        long days = (System.currentTimeMillis() + milliDiff) / 86400000;
-        nextRoll = (days + 1) * 86400000 + milliDiff;
+        long days = (System.currentTimeMillis()) / 86400000;
+        nextRoll = (days + 1) * 86400000;
     }
 
     public DailyRollingFileLogHandler(LogRecord.Level minimumLevel, File dataRoot) throws IOException {
@@ -56,7 +54,6 @@ public class DailyRollingFileLogHandler implements LogHandler {
 
     private synchronized void write(LogRecord logRecord) throws IOException {
         long now = System.currentTimeMillis();
-        System.out.println("nextRoll: "+nextRoll+", now: "+now);
         if (now >= nextRoll) roll(now);
         buffer.write(formatter.format(logRecord).getBytes(StandardCharsets.UTF_8));
         if(buffer.size()>bufferSizeInByte){
